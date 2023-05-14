@@ -12,6 +12,7 @@ const loadButton = document.getElementById("load-more")
 const searchInput = document.getElementById("search")
 let count = 0
 const urlSearch = 'https://pokeapi.co/api/v2/pokemon'
+let pokemonDetails = []
 
 
 /* Fetch names and store in array */
@@ -52,6 +53,7 @@ async function getPokemonDetails(api)
         "height" : height,
         "id" : data.id
     }
+    pokemonDetails.push(details)
     return details
 }
 /* Display and render the pokemon */
@@ -60,15 +62,15 @@ async function displayPokemon() {
     for (let x = 0; x < 10; x++) {
       const details = await getPokemonDetails(
         `https://pokeapi.co/api/v2/pokemon/${count + 1}/`
-      );
+      )
       count++;
       const card = document.createElement("div");
       card.classList.add("pokemon-cards", "pokemon-card");
   
       const image = document.createElement("img");
       image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${count}.png`;
-      card.addEventListener("click", () => {
-        openPopup(details);
+      card.addEventListener("click", function() {
+        openPopup(details.id);
       });
   
       const id = document.createElement("p");
@@ -92,13 +94,14 @@ async function displayPokemon() {
     }
   }
   
-  async function openPopup(details) {
+  async function openPopup(pokemonID) {
     /* Remove existing popups */
     const existingPopups = document.querySelectorAll(".popup");
     existingPopups.forEach((popup) => popup.remove());
     /* Popup creation */
+    const details = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${pokemonID}/`)
     const listofWeaknesses = await getWeakness(details.arrTypes)
-    console.log(listofWeaknesses)
+    // console.log(listofWeaknesses)
     const popup = document.createElement("div")
     popup.classList.add("popup")
     const image = document.createElement("img")
@@ -147,7 +150,7 @@ function capitalizeFirstLetter(str) {
 /* Adding search functionality */
 searchInput.addEventListener("input", async function()
 {   
-    console.log(searchInput.value)
+    // console.log(searchInput.value)
     const searchValue = searchInput.value.trim()
     pokemonList.innerHTML = ""
     let matchesFound = false // determine if match is found
@@ -159,7 +162,7 @@ searchInput.addEventListener("input", async function()
         {
             const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`)
             pokemonList.innerHTML += `
-            <div class="pokemon-cards pokemon-card">
+            <div class="pokemon-cards pokemon-card" onclick="openPopup(${pokemonId})">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" <br> 
                 <p class="id">ID: ${pokemonId}</p>
                 <p class="name"> Name: ${details.name}</p>
@@ -189,7 +192,7 @@ searchInput.addEventListener("input", async function()
                     }
                     const details = await getPokemonDetails(`${urlSearch}/${idStore+1}`)
                     pokemonList.innerHTML += `
-                    <div class="pokemon-cards pokemon-card">
+                    <div class="pokemon-cards pokemon-card" onclick="openPopup(${details.id})">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png" <br> 
                         <p class="id">ID: ${details.id}</p>
                         <p class="name"> Name: ${details.name}</p>
@@ -201,7 +204,7 @@ searchInput.addEventListener("input", async function()
         }
     } if (!matchesFound && searchInput.value != "")
     {
-        console.log(searchInput.value)
+        // console.log(searchInput.value)
         pokemonList.innerHTML = `<p class="error">No results found.</p>`
     }
     if(searchInput.value != "") // hides or shows load button when searching
@@ -214,7 +217,7 @@ searchInput.addEventListener("input", async function()
         {
             const data = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${x + 1}/`)
             pokemonList.innerHTML += `
-            <div class="pokemon-cards pokemon-card">
+            <div class="pokemon-cards pokemon-card" onclick="openPopup(${x + 1})">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${x + 1}.png" <br> 
                 <p class="id">ID: ${data.id}</p>
                 <p class="name"> Name: ${data.name}</p>
