@@ -99,6 +99,7 @@ async function displayPokemon() {
     const existingPopups = document.querySelectorAll(".popup");
     existingPopups.forEach((popup) => popup.remove());
     /* Popup creation */
+    // console.log(pokemonID)
     const details = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${pokemonID}/`)
     const listofWeaknesses = await getWeakness(details.arrTypes)
     // console.log(listofWeaknesses)
@@ -116,6 +117,35 @@ async function displayPokemon() {
     height.textContent = `Height: ${details.height}`
     const weakness = document.createElement("p")
     weakness.textContent = `Weaknesses: ${listofWeaknesses}`
+
+    /* Adding previous, next and close buttons*/
+    const previousBtn = document.createElement("button")
+    previousBtn.innerHTML = "Previous"
+    previousBtn.classList.add("popup-btn")
+    previousBtn.addEventListener("click", function(){
+        if (details.id - 1 > 0) 
+        {
+            openPopup(details.id - 1)
+        }
+    })
+
+    const nextBtn = document.createElement("button")
+    nextBtn.innerHTML = "Next"
+    nextBtn.classList.add("popup-btn")
+    nextBtn.addEventListener("click",function(){
+        if (details.id + 1 < 1011) 
+        {
+            openPopup(details.id + 1)
+        }
+    })
+
+    const closeBtn = document.createElement("button")
+    closeBtn.innerHTML = "Close"
+    closeBtn.classList.add("popup-btn")
+    closeBtn.addEventListener("click", function()
+    {
+        document.body.removeChild(popup)
+    })
     /* Adding to div */
     popup.appendChild(image)
     popup.appendChild(id)
@@ -123,11 +153,16 @@ async function displayPokemon() {
     popup.appendChild(type)
     popup.appendChild(height)
     popup.appendChild(weakness)
+    popup.appendChild(previousBtn)
+    popup.appendChild(nextBtn)
+    popup.appendChild(closeBtn)
   
     document.body.appendChild(popup);
+    /*
     popup.addEventListener("click", () => { // closes popup when clicking on it
         document.body.removeChild(popup);
       });
+    */
   }
   
 loadButton.addEventListener("click", function()
