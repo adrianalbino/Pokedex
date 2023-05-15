@@ -1,4 +1,17 @@
 /* Basic layout */
+
+@font-face {
+    font-family: "pokemon-hollow";
+    src: url("fonts/pokemon-hollow.ttf") format("truetype");
+    font-family: "pokemon-solid";
+    src: url("fonts/pokemon-solid.ttf") format("truetype");
+}
+
+.title {
+  font-family: "pokemon-solid", sans-serif;
+  text-align: center;
+  font-size: 100px;
+}
 body {
     background-color: #f4f4f4;
     font-family: Arial, sans-serif;
@@ -84,7 +97,7 @@ body {
   }
   .pokemon-card:hover {
     transform: scale(1.05);
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(255, 99, 71, 1);
   }
   
   .pokemon-card img {
@@ -114,6 +127,8 @@ body {
     padding: 40px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     z-index: 999;
+    width: 400px;
+    height: 450px;
   }
 
   .popup-btn {
@@ -121,7 +136,7 @@ body {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
+    background-color: #f44336;
     color: white;
     text-align: center;
     font-size: 16px;
@@ -129,4 +144,7 @@ body {
     cursor: pointer;
   }
   
-  
+  .contain-button {
+    display: flex;
+    justify-content: center;
+  }

@@ -118,8 +118,7 @@ async function displayPokemon() {
     displayPokemon()
   })
 
-
-
+  /* Fetches all pokemon and stores them in an array */
   async function fetchPokemons()
   {
     sortByNameArr = []
@@ -131,8 +130,6 @@ async function displayPokemon() {
       }
       console.log(sortByNameArr)
   }
-
-  fetchPokemons()
 
 /* Sort by Name */
   sortNameBtn.addEventListener("click", async function()
@@ -191,6 +188,8 @@ async function displayPokemon() {
     popup.classList.add("popup")
     const image = document.createElement("img")
     image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
+    image.style.display = "block"
+    image.style.margin = "0 auto"
     const id = document.createElement("p")
     id.textContent = `ID: ${details.id}`
     const name = document.createElement("p")
@@ -231,6 +230,12 @@ async function displayPokemon() {
     {
         document.body.removeChild(popup)
     })
+
+    const container = document.createElement("div")
+    container.classList.add("contain-button")
+    container.appendChild(previousBtn)
+    container.appendChild(nextBtn)
+    container.appendChild(closeBtn)
     /* Adding to div */
     popup.appendChild(image)
     popup.appendChild(id)
@@ -238,11 +243,9 @@ async function displayPokemon() {
     popup.appendChild(type)
     popup.appendChild(height)
     popup.appendChild(weakness)
-    popup.appendChild(previousBtn)
-    popup.appendChild(nextBtn)
-    popup.appendChild(closeBtn)
+    popup.appendChild(container)
   
-    document.body.appendChild(popup);
+    document.body.appendChild(popup)
   }
   
 loadButton.addEventListener("click", async function()
@@ -292,8 +295,8 @@ loadButton.addEventListener("click", async function()
 }
 )
 
-
 displayPokemon()
+fetchPokemons()
 
 
 /* Capitalize first letter of a string */
@@ -303,16 +306,16 @@ function capitalizeFirstLetter(str) {
 }
 
 
+
+
 /* Adding search functionality */
 searchInput.addEventListener("input", async function()
 {   
-    // console.log(searchInput.value)
     const searchValue = searchInput.value.trim()
     pokemonList.innerHTML = ""
     let matchesFound = false // determine if match is found
     if (!isNaN(searchValue)) // checks if value is a number
     {  
-        // console.log(searchValue)
         const pokemonId = parseInt(searchValue)
         if (pokemonId >= 1 && pokemonId <= 11000) {
             try {
@@ -353,7 +356,6 @@ searchInput.addEventListener("input", async function()
         }
     if (!matchesFound && searchInput.value != "")
     {
-        // console.log(searchInput.value)
         pokemonList.innerHTML = `<p class="error">No results found.</p>`
     }
     if(searchInput.value != "") // hides or shows load button when searching
@@ -376,6 +378,8 @@ searchInput.addEventListener("input", async function()
     }
 
 })
+
+
 
 /* Get weakness */
 async function getWeakness(types)
