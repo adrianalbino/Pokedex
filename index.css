@@ -17,12 +17,6 @@
   font-size: 100px;
 }
 
-.title-name {
-  font-family: sans-serif;
-  text-align: center;
-  font-size: 30px;
-  color: black;
-}
 body {
     background-color: #f4f4f4;
     font-family: Arial, sans-serif;
@@ -35,20 +29,6 @@ body {
   }
   
   /* Header */
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #2196f3;
-    color: white;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
   
   .search-bar {
     display: flex;
