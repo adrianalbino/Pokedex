@@ -9,10 +9,17 @@
 let url = 'https://pokeapi.co/api/v2/pokemon'
 const pokemonList = document.getElementById("pokemon-list")
 const loadButton = document.getElementById("load-more")
+const sortNameBtn = document.getElementById("sort-name")
+const sortIDBtn = document.getElementById('sort-id')
 const searchInput = document.getElementById("search")
 let count = 0
+let sortNameCount = 10
+let sortNameHolder = 0
+let sortByID = true
 const urlSearch = 'https://pokeapi.co/api/v2/pokemon'
 let pokemonDetails = []
+let pokemonMasterArr = []
+let sortByNameArr = []
 
 
 /* Fetch names and store in array */
@@ -25,6 +32,8 @@ async function getPokemonData(api)
     const data = await response.json()
     url = data.next
     pokemons = data.results.map(element => element.name)
+    pokemonMasterArr = pokemonMasterArr.concat(pokemons)
+    console.log(pokemonMasterArr)
 }
 
 /* Make an object to store its important details */
@@ -58,42 +67,156 @@ async function getPokemonDetails(api)
 }
 /* Display and render the pokemon */
 async function displayPokemon() {
-    await getPokemonData(url);
+    console.log(url)
+    await getPokemonData(url)
     for (let x = 0; x < 10; x++) {
       const details = await getPokemonDetails(
         `https://pokeapi.co/api/v2/pokemon/${count + 1}/`
       )
-      count++;
-      const card = document.createElement("div");
-      card.classList.add("pokemon-cards", "pokemon-card");
+      count++
+      const card = document.createElement("div")
+      card.classList.add("pokemon-cards", "pokemon-card")
   
-      const image = document.createElement("img");
-      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${count}.png`;
+      const image = document.createElement("img")
+      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${count}.png`
       card.addEventListener("click", function() {
-        openPopup(details.id);
-      });
+        openPopup(details.id)
+      })
   
-      const id = document.createElement("p");
-      id.classList.add("id");
-      id.textContent = `ID: ${details.id}`;
+      const id = document.createElement("p")
+      id.classList.add("id")
+      id.textContent = `ID: ${details.id}`
   
-      const name = document.createElement("p");
-      name.classList.add("name");
-      name.textContent = `Name: ${details.name}`;
+      const name = document.createElement("p")
+      name.classList.add("name")
+      name.textContent = `Name: ${details.name}`
   
-      const type = document.createElement("p");
-      type.classList.add("type");
-      type.textContent = `Types: ${details.types}`;
+      const type = document.createElement("p")
+      type.classList.add("type")
+      type.textContent = `Types: ${details.types}`
   
-      card.appendChild(image);
-      card.appendChild(id);
-      card.appendChild(name);
-      card.appendChild(type);
+      card.appendChild(image)
+      card.appendChild(id)
+      card.appendChild(name)
+      card.appendChild(type)
   
-      pokemonList.appendChild(card);
+      pokemonList.appendChild(card)
     }
   }
-  
+
+  /* Sort by ID button */
+  sortIDBtn.addEventListener("click", async function()
+  {
+    pokemonMasterArr = []
+    pokemons = []
+    sortByID = true
+    count = 0
+    url = 'https://pokeapi.co/api/v2/pokemon'
+    pokemonList.innerHTML = ""
+    displayPokemon()
+  })
+
+
+
+/* Sort by Name */
+  sortNameBtn.addEventListener("click", async function fetchAllPokemons()
+  {
+    sortNameCount = 10
+    sortNameHolder = 0
+    sortByID = false
+    pokemonList.innerHTML = ""
+    sortByNameArr = []
+    url = 'https://pokeapi.co/api/v2/pokemon'
+    while (url) {
+        console.log('Fetching data from:', url)
+        const response = await fetch(url);
+        const data = await response.json();
+        sortByNameArr.push(...data.results.map((pokemon) => pokemon.name));
+        url = data.next;
+      }
+    sortByNameArr.sort()
+    for (let y = 0; y < 10; y++) {
+        const details = await getPokemonDetails(
+          `https://pokeapi.co/api/v2/pokemon/${sortByNameArr[y]}/`
+        )
+        const card = document.createElement("div")
+        card.classList.add("pokemon-cards", "pokemon-card")
+        const image = document.createElement("img")
+        image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
+        card.addEventListener("click", function() {
+          openPopup(details.id);
+        });
+    
+        const id = document.createElement("p")
+        id.classList.add("id")
+        id.textContent = `ID: ${details.id}`
+    
+        const name = document.createElement("p")
+        name.classList.add("name")
+        name.textContent = `Name: ${details.name}`
+    
+        const type = document.createElement("p")
+        type.classList.add("type")
+        type.textContent = `Types: ${details.types}`
+    
+        card.appendChild(image)
+        card.appendChild(id)
+        card.appendChild(name)
+        card.appendChild(type)
+    
+        pokemonList.appendChild(card)
+      }
+})
+/*
+Sort by Name button 
+  sortNameBtn.addEventListener("click", async function()
+  {
+    pokemonMasterArr = []
+    sortNameCount++
+    sortByID = false
+    pokemonList.innerHTML = ""
+    url = 'https://pokeapi.co/api/v2/pokemon'
+    await getPokemonData(url)
+    // pokemons.sort()
+    pokemonMasterArr.sort()
+    // console.log(pokemons)
+    for (let y = 0; y < 10; y++) {
+        const details = await getPokemonDetails(
+          `https://pokeapi.co/api/v2/pokemon/${pokemonMasterArr[y]}/`
+        )
+        const card = document.createElement("div")
+        card.classList.add("pokemon-cards", "pokemon-card")
+        const image = document.createElement("img")
+        image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
+        card.addEventListener("click", function() {
+          openPopup(details.id);
+        });
+    
+        const id = document.createElement("p")
+        id.classList.add("id")
+        id.textContent = `ID: ${details.id}`
+    
+        const name = document.createElement("p")
+        name.classList.add("name")
+        name.textContent = `Name: ${details.name}`
+    
+        const type = document.createElement("p")
+        type.classList.add("type")
+        type.textContent = `Types: ${details.types}`
+    
+        card.appendChild(image)
+        card.appendChild(id)
+        card.appendChild(name)
+        card.appendChild(type)
+    
+        pokemonList.appendChild(card)
+      }
+  })
+
+  */
+
+
+  /* Click to popup */
   async function openPopup(pokemonID) {
     /* Remove existing popups */
     const existingPopups = document.querySelectorAll(".popup");
@@ -158,17 +281,53 @@ async function displayPokemon() {
     popup.appendChild(closeBtn)
   
     document.body.appendChild(popup);
-    /*
-    popup.addEventListener("click", () => { // closes popup when clicking on it
-        document.body.removeChild(popup);
-      });
-    */
   }
   
-loadButton.addEventListener("click", function()
+loadButton.addEventListener("click", async function()
 {
-    displayPokemon()
-})
+    if(sortByID == true) 
+    {
+        displayPokemon()
+    } 
+    else // load more when its sorted by name
+    {
+        sortNameHolder = sortNameCount + 10
+        for (; sortNameCount < sortNameHolder; sortNameCount++)
+        {
+              console.log(sortNameCount)
+              const details = await getPokemonDetails(
+                `https://pokeapi.co/api/v2/pokemon/${sortByNameArr[sortNameCount]}/`
+              )
+              const card = document.createElement("div")
+              card.classList.add("pokemon-cards", "pokemon-card")
+              const image = document.createElement("img")
+              image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
+              card.addEventListener("click", function() {
+                openPopup(details.id);
+              });
+          
+              const id = document.createElement("p")
+              id.classList.add("id")
+              id.textContent = `ID: ${details.id}`
+          
+              const name = document.createElement("p")
+              name.classList.add("name")
+              name.textContent = `Name: ${details.name}`
+          
+              const type = document.createElement("p")
+              type.classList.add("type")
+              type.textContent = `Types: ${details.types}`
+          
+              card.appendChild(image)
+              card.appendChild(id)
+              card.appendChild(name)
+              card.appendChild(type)
+          
+              pokemonList.appendChild(card)
+        }
+    }
+}
+)
 
 
 displayPokemon()
