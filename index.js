@@ -7,16 +7,17 @@
 */
 
 let url = 'https://pokeapi.co/api/v2/pokemon'
+let urlgetter = 'https://pokeapi.co/api/v2/pokemon'
+const urlSearch = 'https://pokeapi.co/api/v2/pokemon'
 const pokemonList = document.getElementById("pokemon-list")
 const loadButton = document.getElementById("load-more")
 const sortNameBtn = document.getElementById("sort-name")
 const sortIDBtn = document.getElementById('sort-id')
 const searchInput = document.getElementById("search")
 let count = 0
-let sortNameCount = 10
 let sortNameHolder = 0
+let sortNameCount = 10
 let sortByID = true
-const urlSearch = 'https://pokeapi.co/api/v2/pokemon'
 let pokemonDetails = []
 let pokemonMasterArr = []
 let sortByNameArr = []
@@ -65,6 +66,7 @@ async function getPokemonDetails(api)
     pokemonDetails.push(details)
     return details
 }
+
 /* Display and render the pokemon */
 async function displayPokemon() {
     console.log(url)
@@ -118,22 +120,27 @@ async function displayPokemon() {
 
 
 
+  async function fetchPokemons()
+  {
+    sortByNameArr = []
+    while (urlgetter) {
+        const response = await fetch(urlgetter);
+        const data = await response.json();
+        sortByNameArr.push(...data.results.map((pokemon) => pokemon.name));
+        urlgetter = data.next;
+      }
+      console.log(sortByNameArr)
+  }
+
+  fetchPokemons()
+
 /* Sort by Name */
-  sortNameBtn.addEventListener("click", async function fetchAllPokemons()
+  sortNameBtn.addEventListener("click", async function()
   {
     sortNameCount = 10
     sortNameHolder = 0
     sortByID = false
     pokemonList.innerHTML = ""
-    sortByNameArr = []
-    url = 'https://pokeapi.co/api/v2/pokemon'
-    while (url) {
-        console.log('Fetching data from:', url)
-        const response = await fetch(url);
-        const data = await response.json();
-        sortByNameArr.push(...data.results.map((pokemon) => pokemon.name));
-        url = data.next;
-      }
     sortByNameArr.sort()
     for (let y = 0; y < 10; y++) {
         const details = await getPokemonDetails(
@@ -167,53 +174,7 @@ async function displayPokemon() {
         pokemonList.appendChild(card)
       }
 })
-/*
-Sort by Name button 
-  sortNameBtn.addEventListener("click", async function()
-  {
-    pokemonMasterArr = []
-    sortNameCount++
-    sortByID = false
-    pokemonList.innerHTML = ""
-    url = 'https://pokeapi.co/api/v2/pokemon'
-    await getPokemonData(url)
-    // pokemons.sort()
-    pokemonMasterArr.sort()
-    // console.log(pokemons)
-    for (let y = 0; y < 10; y++) {
-        const details = await getPokemonDetails(
-          `https://pokeapi.co/api/v2/pokemon/${pokemonMasterArr[y]}/`
-        )
-        const card = document.createElement("div")
-        card.classList.add("pokemon-cards", "pokemon-card")
-        const image = document.createElement("img")
-        image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
-        card.addEventListener("click", function() {
-          openPopup(details.id);
-        });
-    
-        const id = document.createElement("p")
-        id.classList.add("id")
-        id.textContent = `ID: ${details.id}`
-    
-        const name = document.createElement("p")
-        name.classList.add("name")
-        name.textContent = `Name: ${details.name}`
-    
-        const type = document.createElement("p")
-        type.classList.add("type")
-        type.textContent = `Types: ${details.types}`
-    
-        card.appendChild(image)
-        card.appendChild(id)
-        card.appendChild(name)
-        card.appendChild(type)
-    
-        pokemonList.appendChild(card)
-      }
-  })
 
-  */
 
 
   /* Click to popup */
@@ -256,8 +217,9 @@ Sort by Name button
     nextBtn.innerHTML = "Next"
     nextBtn.classList.add("popup-btn")
     nextBtn.addEventListener("click",function(){
-        if (details.id + 1 < 1011) 
+        if (details.id + 1 < 11000) 
         {
+            console.log(details.id + 1)
             openPopup(details.id + 1)
         }
     })
@@ -285,6 +247,7 @@ Sort by Name button
   
 loadButton.addEventListener("click", async function()
 {
+    console.log(url)
     if(sortByID == true) 
     {
         displayPokemon()
@@ -333,7 +296,6 @@ loadButton.addEventListener("click", async function()
 displayPokemon()
 
 
-
 /* Capitalize first letter of a string */
 function capitalizeFirstLetter(str) {
     const capitalized = str.replace(/^./, str[0].toUpperCase());
@@ -352,39 +314,32 @@ searchInput.addEventListener("input", async function()
     {  
         // console.log(searchValue)
         const pokemonId = parseInt(searchValue)
-        if (pokemonId >= 1 && pokemonId <= 1010) // 1010 amount of pokemons in API
-        {
-            const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`)
-            pokemonList.innerHTML += `
-            <div class="pokemon-cards pokemon-card" onclick="openPopup(${pokemonId})">
+        if (pokemonId >= 1 && pokemonId <= 11000) {
+            try {
+              const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`);
+              pokemonList.innerHTML += `
+              <div class="pokemon-cards pokemon-card" onclick="openPopup(${pokemonId})">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" <br> 
                 <p class="id">ID: ${pokemonId}</p>
                 <p class="name"> Name: ${details.name}</p>
                 <p class="type"> Types: ${details.types} </p>
-            </div>`
-            matchesFound = true
-        }
+              </div>`;
+              matchesFound = true;
+            } catch (error) {
+                pokemonList.innerHTML = `<p class="error">No results found.</p>`
+            }
+          }
     } else // if searchvalue is a name
     {
         let searchName = searchValue.toLowerCase()
         let idStore
         url = 'https://pokeapi.co/api/v2/pokemon'
         pokemons = []
-        for (let idCheck = 0; idCheck <= 1010 && matchesFound == false; idCheck += 20) // nested loop to go through entire api
+        for (let idCheck = 0; idCheck <= sortByNameArr.length && matchesFound == false; idCheck++) // nested loop to go through entire api
         {
-            await getPokemonData(url)
-            for (x = 0; x < 20; x++)
-            {
-                if (pokemons[x].toLowerCase().includes(searchName))
+            if (sortByNameArr[idCheck].toLowerCase().includes(searchName))
                 {
-                    if (idCheck >= 20)
-                    {
-                        idStore = idCheck + x
-                    } 
-                    else {
-                        idStore = x
-                    }
-                    const details = await getPokemonDetails(`${urlSearch}/${idStore+1}`)
+                    const details = await getPokemonDetails(`${urlSearch}/${sortByNameArr[idCheck]}`)
                     pokemonList.innerHTML += `
                     <div class="pokemon-cards pokemon-card" onclick="openPopup(${details.id})">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png" <br> 
@@ -396,7 +351,7 @@ searchInput.addEventListener("input", async function()
                 }
             }
         }
-    } if (!matchesFound && searchInput.value != "")
+    if (!matchesFound && searchInput.value != "")
     {
         // console.log(searchInput.value)
         pokemonList.innerHTML = `<p class="error">No results found.</p>`
