@@ -69,18 +69,20 @@ async function getPokemonDetails(api)
 
 /* Display and render the pokemon */
 async function displayPokemon() {
-    console.log(url)
-    await getPokemonData(url)
-    for (let x = 0; x < 10; x++) {
-      const details = await getPokemonDetails(
-        `https://pokeapi.co/api/v2/pokemon/${count + 1}/`
-      )
+    const promises = []
+    const pokemonCount = 10
+    for (let x = 0; x < pokemonCount; x++) {
+      promises.push(getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${count + 1}/`))
       count++
+    }
+    const pokemonDetailsArray = await Promise.all(promises)
+  
+    pokemonDetailsArray.forEach((details) => {
       const card = document.createElement("div")
       card.classList.add("pokemon-cards", "pokemon-card")
   
       const image = document.createElement("img")
-      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${count}.png`
+      image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
       card.addEventListener("click", function() {
         openPopup(details.id)
       })
@@ -103,9 +105,8 @@ async function displayPokemon() {
       card.appendChild(type)
   
       pokemonList.appendChild(card)
-    }
+    });
   }
-
   /* Sort by ID button */
   sortIDBtn.addEventListener("click", async function()
   {
