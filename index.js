@@ -336,10 +336,9 @@ searchInput.addEventListener("input", async function()
     } else // if searchvalue is a name
     {
         let searchName = searchValue.toLowerCase()
-        let idStore
         url = 'https://pokeapi.co/api/v2/pokemon'
         pokemons = []
-        for (let idCheck = 0; idCheck <= sortByNameArr.length && matchesFound == false; idCheck++) // nested loop to go through entire api
+        for (let idCheck = 0; idCheck < sortByNameArr.length && matchesFound == false; idCheck++) // nested loop to go through entire api
         {
             if (sortByNameArr[idCheck].toLowerCase().includes(searchName))
                 {
