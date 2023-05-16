@@ -18,59 +18,59 @@
 }
 
 body {
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
-  }
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+}
   
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
   
   /* Header */
   
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    padding: 8px 10px;
-    border-radius: 20px;
-  }
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 8px 10px;
+  border-radius: 20px;
+}
   
-  .search-bar input[type="text"] {
-    border: none;
-    outline: none;
-    padding: 5px;
-    font-size: 16px;
-    margin-left: 5px;
-    width: 200px;
-  }
+.search-bar input[type="text"] {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  margin-left: 5px;
+  width: 200px;
+}
   
-  .search-bar button {
-    background-color: #2196f3;
-    color: white;
-    border: none;
-    outline: none;
-    padding: 5px 10px;
-    border-radius: 20px;
-    margin-left: 5px;
-    cursor: pointer;
-  }
+.search-bar button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
   
-  .error {
-    color:darkgrey;
-  }
+.error {
+  color:darkgrey;
+}
 
-  .button-container {
-    display:flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+.button-container {
+  display:flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-  #sort-id {
-    margin-left: 10px;
-  }
+#sort-id {
+  margin-left: 10px;
+}
   
 /* Pokemon Cards */
 .pokemon-cards {
@@ -122,34 +122,34 @@ body {
 }
 
 
-  /* Popup */
-  .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 40px;
-    box-shadow: 0px 0px 10px 0px rgba(255, 99, 71, 1);
-    z-index: 999;
-    width: 400px;
-    height: 450px;
-  }
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 40px;
+  box-shadow: 0px 0px 10px 0px rgba(255, 99, 71, 1);
+  z-index: 999;
+  width: 400px;
+  height: 450px;
+}
 
-  .popup-btn {
-    display: inline-block;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f44336;
-    color: white;
-    text-align: center;
-    font-size: 16px;
-    margin: 5px;
-    cursor: pointer;
-  }
+.popup-btn {
+  display: inline-block;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f44336;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+}
   
-  .contain-button {
-    display: flex;
-    justify-content: center;
-  }
+.contain-button {
+  display: flex;
+  justify-content: center;
+}

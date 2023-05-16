@@ -29,10 +29,10 @@ async function fetchPokemons()
     sortByNameArr = []
     while (urlgetter) 
     {
-        const response = await fetch(urlgetter);
-        const data = await response.json();
-        sortByNameArr.push(...data.results.map((pokemon) => pokemon.name));
-        urlgetter = data.next;
+        const response = await fetch(urlgetter)
+        const data = await response.json()
+        sortByNameArr.push(...data.results.map((pokemon) => pokemon.name))
+        urlgetter = data.next
     }
     console.log(sortByNameArr)
 }
@@ -65,8 +65,8 @@ sortNameBtn.addEventListener("click", async function()
         image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
         card.addEventListener("click", function() 
         {
-            openPopup(details.id);
-        });
+            openPopup(details.id)
+        })
         
         const id = document.createElement("p")
         id.classList.add("id")
@@ -112,8 +112,8 @@ loadButton.addEventListener("click", async function()
               const image = document.createElement("img")
               image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
               card.addEventListener("click", function() {
-                openPopup(details.id);
-              });
+                openPopup(details.id)
+              })
           
               const id = document.createElement("p")
               id.classList.add("id")
@@ -149,20 +149,20 @@ searchInput.addEventListener("input", async function()
         const pokemonId = parseInt(searchValue)
         if (pokemonId >= 1 && pokemonId <= 11000) {
             try {
-              const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`);
+              const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`)
               pokemonList.innerHTML += `
               <div class="pokemon-cards pokemon-card">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" <br> 
                 <p class="id">ID: ${pokemonId}</p>
                 <p class="name"> Name: ${details.name}</p>
                 <p class="type"> Types: ${details.types} </p>
-              </div>`;
+              </div>`
               // Get the newly added div element
-              const div = pokemonList.lastElementChild;
+              const div = pokemonList.lastElementChild
               div.addEventListener("click", function() {
                 openPopup(details.id)
-              });
-              matchesFound = true;
+              })
+              matchesFound = true
             } catch (error) {
                 pokemonList.innerHTML = `<p class="error">No results found.</p>`
             }
@@ -186,7 +186,7 @@ searchInput.addEventListener("input", async function()
                     const div = pokemonList.lastElementChild
                     div.addEventListener("click", function() {
                       openPopup(details.id)
-                    });
+                    })
                     matchesFound = true
                 }
             }

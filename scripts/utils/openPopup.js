@@ -7,16 +7,16 @@
     const existingPopups = document.querySelectorAll(".popup");
     existingPopups.forEach((popup) => popup.remove());
     /* Popup creation */
-    // console.log(pokemonID)
     const details = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${pokemonID}/`)
     const listofWeaknesses = await getWeakness(details.arrTypes)
-    // console.log(listofWeaknesses)
     const popup = document.createElement("div")
+
     popup.classList.add("popup")
     const image = document.createElement("img")
     image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
     image.style.display = "block"
     image.style.margin = "0 auto"
+    
     const id = document.createElement("p")
     id.textContent = `ID: ${details.id}`
     const name = document.createElement("p")
