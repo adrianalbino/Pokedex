@@ -23,7 +23,6 @@ displayPokemon()
 fetchPokemons()
 
 
-
 /* Fetches all pokemon and stores them in an array */
 async function fetchPokemons()
 {
@@ -152,12 +151,17 @@ searchInput.addEventListener("input", async function()
             try {
               const details = await getPokemonDetails(`${urlSearch}/${pokemonId}`);
               pokemonList.innerHTML += `
-              <div class="pokemon-cards pokemon-card" onclick="openPopup(${pokemonId})">
+              <div class="pokemon-cards pokemon-card">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" <br> 
                 <p class="id">ID: ${pokemonId}</p>
                 <p class="name"> Name: ${details.name}</p>
                 <p class="type"> Types: ${details.types} </p>
               </div>`;
+              // Get the newly added div element
+              const div = pokemonList.lastElementChild;
+              div.addEventListener("click", function() {
+                openPopup(details.id)
+              });
               matchesFound = true;
             } catch (error) {
                 pokemonList.innerHTML = `<p class="error">No results found.</p>`
@@ -173,12 +177,16 @@ searchInput.addEventListener("input", async function()
                 {
                     const details = await getPokemonDetails(`${urlSearch}/${sortByNameArr[idCheck]}`)
                     pokemonList.innerHTML += `
-                    <div class="pokemon-cards pokemon-card" onclick="openPopup(${details.id})">
+                    <div class="pokemon-cards pokemon-card">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png" <br> 
                         <p class="id">ID: ${details.id}</p>
                         <p class="name"> Name: ${details.name}</p>
                         <p class="type"> Types: ${details.types} </p>
                     </div>`
+                    const div = pokemonList.lastElementChild
+                    div.addEventListener("click", function() {
+                      openPopup(details.id)
+                    });
                     matchesFound = true
                 }
             }
@@ -196,13 +204,18 @@ searchInput.addEventListener("input", async function()
         for (let x = 0; x < 10; x++) // renders the first 10 pokemon when search bar is cleared
         {
             const data = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${x + 1}/`)
-            pokemonList.innerHTML += `
-            <div class="pokemon-cards pokemon-card" onclick="openPopup(${x + 1})">
+            const div = document.createElement("div")
+            div.classList.add("pokemon-cards", "pokemon-card")
+            div.innerHTML = `
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${x + 1}.png" <br> 
                 <p class="id">ID: ${data.id}</p>
                 <p class="name"> Name: ${data.name}</p>
                 <p class="type"> Types: ${data.types} </p>
-            </div>`
+                `
+            div.addEventListener("click", function() {
+              openPopup(data.id)
+            })
+            pokemonList.appendChild(div)         
         }
     }
 
