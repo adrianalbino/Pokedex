@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: "pokemon-hollow";
-  src: url("fonts/pokemon-hollow.ttf") format("truetype");
+  src: url("./assets/fonts/pokemon-hollow.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "pokemon-solid";
-  src: url("fonts/pokemon-solid.ttf") format("truetype");
+  src: url("./assets/fonts/pokemon-solid.ttf") format("truetype");
 }
 
 
