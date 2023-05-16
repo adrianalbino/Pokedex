@@ -10,11 +10,34 @@
   src: url("./assets/fonts/pokemon-solid.ttf") format("truetype");
 }
 
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  #sort-name {
+    margin-bottom: 10px;
+    width: 150px;
+  }
+  #sort-id {
+    width: 150px;
+    margin-right: 10px;
+  }
+}
 
+/* HTML */
 .title {
   font-family: "pokemon-solid", sans-serif;
   text-align: center;
   font-size: 100px;
+  width: 100%;
 }
 
 body {
@@ -74,6 +97,7 @@ i {
 #sort-id {
   margin-left: 10px;
 }
+
   
 /* Pokemon Cards */
 .pokemon-cards {
@@ -160,3 +184,4 @@ i {
   display: flex;
   justify-content: center;
 }
+
