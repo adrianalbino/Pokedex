@@ -96,10 +96,15 @@ loadButton.addEventListener("click", async function()
     console.log(url)
     if(sortByID == true) 
     {
+        loadButton.innerHTML = `
+        <i class="fa fa-refresh fa-spin"></i>Load More`
         displayPokemon()
+        loadButton.innerHTML = "Load More"
     } 
     else // load more when its sorted by name
     {
+        loadButton.innerHTML = `
+        <i class="fa fa-refresh fa-spin"></i>Load More` // adds a loading icon when not done fetching
         sortNameHolder = sortNameCount + 10
         for (; sortNameCount < sortNameHolder; sortNameCount++)
         {
@@ -134,6 +139,7 @@ loadButton.addEventListener("click", async function()
           
               pokemonList.appendChild(card)
         }
+        loadButton.innerHTML = "Load More" // restores button to normal after fetching
     }
 }
 )
