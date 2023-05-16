@@ -66,7 +66,12 @@ async function getWeakness(types)
     }
     for (let ctr2 = 0; ctr2 < weaknesses.length; ctr2++) // converts the array to a string
     {
-        weakString += capitalizeFirstLetter(weaknesses[ctr2]) + " "
+        weakString += capitalizeFirstLetter(weaknesses[ctr2])
+
+        if (ctr2 !== weaknesses.length - 1)
+        {
+            weakString += ", "
+        }
     }
     return weakString
 }
