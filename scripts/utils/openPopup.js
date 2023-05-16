@@ -16,7 +16,7 @@
     image.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${details.id}.png`
     image.style.display = "block"
     image.style.margin = "0 auto"
-    
+
     const id = document.createElement("p")
     id.textContent = `ID: ${details.id}`
     const name = document.createElement("p")
@@ -25,6 +25,8 @@
     type.textContent = `Types: ${details.types}`
     const height = document.createElement("p")
     height.textContent = `Height: ${details.height}`
+    const weight = document.createElement("p")
+    weight.textContent = `Weight: ${details.weight}`
     const weakness = document.createElement("p")
     weakness.textContent = `Weaknesses: ${listofWeaknesses}`
 
@@ -69,6 +71,7 @@
     popup.appendChild(name)
     popup.appendChild(type)
     popup.appendChild(height)
+    popup.appendChild(weight)
     popup.appendChild(weakness)
     popup.appendChild(container)
   

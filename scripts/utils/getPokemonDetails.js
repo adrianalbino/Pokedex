@@ -25,7 +25,8 @@ async function getPokemonDetails(api)
         "types" : types,
         "arrTypes": arrayTypes,
         "height" : height,
-        "id" : data.id
+        "id" : data.id,
+        "weight" : data.weight
     }
     pokemonDetails.push(details)
     return details
