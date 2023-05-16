@@ -54,6 +54,8 @@ sortNameBtn.addEventListener("click", async function()
     sortNameHolder = 0
     sortByID = false
     pokemonList.innerHTML = ""
+    loadButton.innerHTML = `
+    <i class="fa fa-refresh fa-spin"></i>Load More` // adds a loading icon when not done fetching
     sortByNameArr.sort()
     for (let y = 0; y < 10; y++) {
         const details = await getPokemonDetails(
@@ -87,6 +89,7 @@ sortNameBtn.addEventListener("click", async function()
         
         pokemonList.appendChild(card)
         }
+    loadButton.innerHTML = "Load More" // restores button to normal after fetching
 })
 
 
