@@ -21,7 +21,10 @@ body {
   background-color: #f4f4f4;
   font-family: Arial, sans-serif;
 }
-  
+
+i {
+  margin-right: 10px;
+}
 .container {
   max-width: 960px;
   margin: 0 auto;
@@ -121,7 +124,11 @@ body {
   color: #888;
 }
 
-
+#load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* Popup */
 .popup {
   position: fixed;
